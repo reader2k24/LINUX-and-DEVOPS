@@ -1,0 +1,60 @@
+stages:
+  - install
+
+variables:
+  ANSIBLE_HOST_KEY_CHECKING: 'false'
+
+cache:
+  paths:
+    - .ansible/cache
+
+# install_package_r1:
+#   extends: .install_package_template
+#   variables:
+#     SERVER_LIMIT: 'r1_server'
+#   tags:
+#     - r1.server
+
+# install_package_pc_r1:
+#   extends: .install_package_template
+#   variables:
+#     SERVER_LIMIT: 'r1_pc'
+#   tags:
+#     - pc-r1.server
+
+# install_package_r0:
+#   extends: .install_package_template
+#   variables:
+#     SERVER_LIMIT: 'r0_server'
+#   tags:
+#     - r0.server
+
+install_package_pc_r0:
+  extends: .install_package_template
+  variables:
+    SERVER_LIMIT: 'r0_pc'
+  tags:
+    - pc-r0.server
+
+# install_package_r2:
+#   extends: .install_package_template
+#   variables:
+#     SERVER_LIMIT: 'r2_server'
+#   tags:
+#     - r2.server
+
+install_package_pc_r2:
+  extends: .install_package_template
+  variables:
+    SERVER_LIMIT: 'r2_pc'
+  tags:
+    - pc-r2.server
+
+.install_package_template:
+  stage: install
+  script:
+    - ansible-playbook -i ansible/inventory/hosts.ini ansible/all.yml --limit "${SERVER_LIMIT}"
+  cache:
+    key: "${SERVER_LIMIT}_packages"
+    paths:
+      - .ansible/cache

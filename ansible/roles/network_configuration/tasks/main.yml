@@ -1,16 +1,6 @@
 ---
-- name: Network Configuration Tasks
-  hosts: all
-  become: yes
-  tasks:
-    - name: Configure IP addresses
-      include_tasks: configure_ip.yml
+- name: Package Installation
+  include_tasks: package_installation.yml
 
-    - name: Configure DHCP server
-      include_tasks: configure_dhcp.yml
-
-    - name: Configure routing
-      include_tasks: configure_routing.yml
-
-    - name: Configure NAT
-      include_tasks: configure_nat.yml
+- name: Configuration IP
+  include_tasks: configure_ip.yml
